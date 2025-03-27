@@ -100,7 +100,7 @@
 {"timestamp": "2025-03-14T13:24:00Z", "endpoint": "/api/data", "status_code": 200}
 {"timestamp": "2025-03-14T13:24:30Z", "endpoint": "/api/products", "status_code": 201}
 {"timestamp": "2025-03-14T13:25:00Z", "endpoint": "/api/users", "status_code": 400}
-{"timestamp": "2025-03-14T13:25:30Z", "endpoint": "/api/auth", "status_code": 403}atus_code": 401}
+{"timestamp": "2025-03-14T13:25:30Z", "endpoint": "/api/auth", "status_code": 403}
 {"timestamp": "2025-03-14T12:37:00Z", "endpoint": "/api/data", "status_code": 200}
 {"timestamp": "2025-03-14T12:37:30Z", "endpoint": "/api/users", "status_code": 500}
 {"timestamp": "2025-03-14T12:38:00Z", "endpoint": "/api/auth", "status_code": 500}

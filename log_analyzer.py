@@ -9,6 +9,7 @@ key statistics including total requests, error counts, and problematic endpoints
 from typing import Dict, List, Tuple, Optional
 import json
 import sys
+import os
 from collections import Counter
 from pathlib import Path
 
@@ -67,32 +68,39 @@ def analyze_logs(file_path: str) -> Tuple[int, int, List[Tuple[str, int]]]:
             
         if not path.is_file():
             raise IOError(f"Path is not a file: {file_path}")
+            
+        if not os.access(path, os.R_OK):
+            raise PermissionError(f"No permission to read file: {file_path}")
 
-        with open(file_path, 'r') as f:
-            for line_num, line in enumerate(f, 1):
-                try:
-                    entry = json.loads(line.strip())
-                    if not validate_log_entry(entry):
-                        print(f"Warning: Invalid entry at line {line_num}")
+        try:
+            with open(file_path, 'r') as f:
+                for line_num, line in enumerate(f, 1):
+                    try:
+                        entry = json.loads(line.strip())
+                        if not validate_log_entry(entry):
+                            print(f"Warning: Invalid entry at line {line_num}")
+                            continue
+                        
+                        total += 1
+                        if entry['status_code'] >= 400:
+                            errors += 1
+                            error_counts[entry['endpoint']] += 1
+                    except json.JSONDecodeError as e:
+                        print(f"Warning: Invalid JSON at line {line_num}: {e}")
                         continue
-                    
-                    total += 1
-                    if entry['status_code'] >= 400:
-                        errors += 1
-                        error_counts[entry['endpoint']] += 1
-                except json.JSONDecodeError as e:
-                    print(f"Warning: Invalid JSON at line {line_num}: {e}")
-                    continue
-                except Exception as e:
-                    print(f"Warning: Unexpected error at line {line_num}: {e}")
-                    continue
+                    except Exception as e:
+                        print(f"Warning: Unexpected error at line {line_num}: {e}")
+                        continue
 
-        return total, errors, error_counts.most_common(3)
+            return total, errors, error_counts.most_common(3)
+        except IOError as e:
+            print(f"Error: Failed to read file contents: {e}")
+            sys.exit(1)
     except FileNotFoundError as e:
         print(f"Error: {e}")
         sys.exit(1)
-    except IOError as e:
-        print(f"Error: Failed to read file: {e}")
+    except PermissionError as e:
+        print(f"Error: {e}")
         sys.exit(1)
     except Exception as e:
         print(f"Error: Unexpected error: {e}")
