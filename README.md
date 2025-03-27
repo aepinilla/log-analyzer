@@ -8,7 +8,7 @@ A Python command-line tool that processes JSON-formatted log files and generates
 - Calculates total number of API requests
 - Identifies and counts error requests (status code >= 400)
 - Lists top 3 endpoints with the most errors
-- Handles invalid JSON and missing fields gracefully
+- Handles invalid JSON and missing fields
 
 ## Requirements
 
@@ -62,7 +62,7 @@ Top 3 Endpoints with Most Errors:
 
 ## Error Handling
 
-The script handles several types of errors:
+The script handles the following types of errors:
 
 - Invalid JSON entries
 - Missing required fields
@@ -82,6 +82,6 @@ log-analyzer/
 
 ## Development Notes
 
-- Written in pure Python without external dependencies for maximum portability
+- Written in pure Python without external dependencies
 - Uses type hints for better code maintainability
 - Includes comprehensive error handling and validation
