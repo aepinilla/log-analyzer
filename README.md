@@ -20,7 +20,7 @@ A Python command-line tool that processes JSON-formatted log files and generates
 Clone this repository or download the source code:
 
 ```bash
-git clone github.com/aepinilla/log-analyzer
+git clone git@github.com:aepinilla/log-analyzer.git
 cd log-analyzer
 ```
 
